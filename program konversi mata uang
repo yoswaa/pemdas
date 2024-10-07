@@ -1,4 +1,4 @@
-  # Define exchange rates
+# Define exchange rates
 exchange_rates = {
     'USD': 1.0,
     'EUR': 0.84,
