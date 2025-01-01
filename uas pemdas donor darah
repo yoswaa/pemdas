@@ -1,0 +1,100 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+class Donor {
+public:
+    std::string nama;
+    std::string golonganDarah;
+    int umur;
+    std::string kontak;
+
+    Donor(std::string n, std::string g, int u, std::string c) 
+        : nama(n), golonganDarah(g), umur(u), kontak(c) {}
+
+    // Menandai metode ini sebagai const
+    void tampilkanInfo() const {
+        std::cout << "Nama: " << nama 
+                  << ", Golongan Darah: " << golonganDarah 
+                  << ", Umur: " << umur 
+                  << ", Kontak: " << kontak << std::endl;
+    }
+};
+
+class ManajemenDonorDarah {
+private:
+    std::vector<Donor> donors;
+
+public:
+    void tambahDonor(const Donor& donor) {
+        donors.push_back(donor);
+        std::cout << "Donor " << donor.nama << " berhasil ditambahkan." << std::endl;
+    }
+
+    void lihatDonor() const { // Menandai metode ini sebagai const
+        if (donors.empty()) {
+            std::cout << "Tidak ada donor yang terdaftar." << std::endl;
+            return;
+        }
+        std::cout << "Daftar Donor Darah:" << std::endl;
+        for (const auto& donor : donors) {
+            donor.tampilkanInfo();
+        }
+    }
+
+    void cariDonor(const std::string& nama) const { // Menandai metode ini sebagai const
+        for (const auto& donor : donors) {
+            if (donor.nama == nama) {
+                std::cout << "Donor ditemukan:" << std::endl;
+                donor.tampilkanInfo();
+                return;
+            }
+        }
+        std::cout << "Donor tidak ditemukan." << std::endl;
+    }
+};
+
+int main() {
+    ManajemenDonorDarah manajemen;
+    int pilihan;
+
+    do {
+        std::cout << "\nMenu:" << std::endl;
+        std::cout << "1. Tambah Donor" << std::endl;
+        std::cout << "2. Lihat Donor" << std::endl;
+        std::cout << "3. Cari Donor" << std::endl;
+        std::cout << "4. Keluar" << std::endl;
+        std::cout << "Pilih menu (1-4): ";
+        std::cin >> pilihan;
+
+        if (pilihan == 1) {
+            std::string nama, golonganDarah, kontak;
+            int umur;
+
+            std::cout << "Masukkan nama donor: ";
+            std::cin >> nama;
+            std::cout << "Masukkan golongan darah: ";
+            std::cin >> golonganDarah;
+            std::cout << "Masukkan umur: ";
+            std::cin >> umur;
+            std::cout << "Masukkan kontak: ";
+            std::cin >> kontak;
+
+            Donor donor(nama, golonganDarah, umur, kontak);
+            manajemen.tambahDonor(donor);
+        } else if (pilihan == 2) {
+            manajemen.lihatDonor();
+        } else if (pilihan == 3) {
+            std::string nama;
+            std::cout << "Masukkan nama donor yang dicari: ";
+            std::cin >> nama;
+            manajemen.cariDonor(nama);
+        } else if (pilihan == 4) {
+            std::cout << "Keluar dari program." << std::endl;
+        } else {
+            std::cout << "Pilihan tidak valid. Silakan coba lagi." << std::endl;
+        }
+    } while (pilihan != 4);
+
+    return 0;
+}
