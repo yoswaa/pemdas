@@ -1,0 +1,138 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Struktur untuk menyimpan data pasien
+struct Pasien {
+    int id;
+    string nama;
+    int usia;
+    string jenisKelamin;
+    string diagnosis;
+    string tanggalMasuk;
+};
+
+// Array untuk menyimpan data pasien (maksimal 100 pasien)
+Pasien daftarPasien[100];
+int jumlahPasien = 0; // Jumlah pasien saat ini
+
+// Fungsi untuk menambahkan pasien
+void tambahPasien() {
+    if (jumlahPasien >= 100) {
+        cout << "Daftar pasien penuh!\n";
+        return;
+    }
+
+    Pasien pasien;
+    cout << "Masukkan ID Pasien: ";
+    cin >> pasien.id;
+    cin.ignore(); // Mengabaikan newline character
+    cout << "Masukkan Nama Pasien: ";
+    getline(cin, pasien.nama);
+    cout << "Masukkan Usia Pasien: ";
+    cin >> pasien.usia;
+    cin.ignore();
+    cout << "Masukkan Jenis Kelamin Pasien: ";
+    getline(cin, pasien.jenisKelamin);
+    cout << "Masukkan Diagnosis Pasien: ";
+    getline(cin, pasien.diagnosis);
+    cout << "Masukkan Tanggal Masuk Pasien: ";
+    getline(cin, pasien.tanggalMasuk);
+
+    daftarPasien[jumlahPasien] = pasien;
+    jumlahPasien++;
+    cout << "Pasien berhasil ditambahkan!\n";
+}
+
+// Fungsi untuk menampilkan daftar pasien
+void tampilkanDaftarPasien() {
+    if (jumlahPasien == 0) {
+        cout << "Tidak ada pasien yang terdaftar.\n";
+        return;
+    }
+
+    for (int i = 0; i < jumlahPasien; i++) {
+        cout << "ID: " << daftarPasien[i].id << "\n";
+        cout << "Nama: " << daftarPasien[i].nama << "\n";
+        cout << "Usia: " << daftarPasien[i].usia << "\n";
+        cout << "Jenis Kelamin: " << daftarPasien[i].jenisKelamin << "\n";
+        cout << "Diagnosis: " << daftarPasien[i].diagnosis << "\n";
+        cout << "Tanggal Masuk: " << daftarPasien[i].tanggalMasuk << "\n";
+        cout << "-------------------------\n";
+    }
+}
+
+// Fungsi untuk mencari pasien berdasarkan ID
+void cariPasien(int id) {
+    for (int i = 0; i < jumlahPasien; i++) {
+        if (daftarPasien[i].id == id) {
+            cout << "Pasien ditemukan:\n";
+            cout << "ID: " << daftarPasien[i].id << "\n";
+            cout << "Nama: " << daftarPasien[i].nama << "\n";
+            cout << "Usia: " << daftarPasien[i].usia << "\n";
+            cout << "Jenis Kelamin: " << daftarPasien[i].jenisKelamin << "\n";
+            cout << "Diagnosis: " << daftarPasien[i].diagnosis << "\n";
+            cout << "Tanggal Masuk: " << daftarPasien[i].tanggalMasuk << "\n";
+            return;
+        }
+    }
+    cout << "Pasien dengan ID " << id << " tidak ditemukan.\n";
+}
+
+// Fungsi untuk menghapus pasien berdasarkan ID
+void hapusPasien(int id) {
+    for (int i = 0; i < jumlahPasien; i++) {
+        if (daftarPasien[i].id == id) {
+            for (int j = i; j < jumlahPasien - 1; j++) {
+                daftarPasien[j] = daftarPasien[j + 1];
+            }
+            jumlahPasien--;
+            cout << "Pasien dengan ID " << id << " berhasil dihapus.\n";
+            return;
+        }
+    }
+    cout << "Pasien dengan ID " << id << " tidak ditemukan.\n";
+}
+
+// Fungsi utama
+int main() {
+    int pilihan;
+    int id;
+
+    do {
+        cout << "\nMenu Manajemen Pasien:\n";
+        cout << "1. Tambah Pasien\n";
+        cout << "2. Tampilkan Daftar Pasien\n";
+        cout << "3. Cari Pasien\n";
+        cout << "4. Hapus Pasien\n";
+        cout << "5. Keluar\n";
+        cout << "Pilih operasi: ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+            case 1:
+                tambahPasien();
+                break;
+            case 2:
+                tampilkanDaftarPasien();
+                break;
+            case 3:
+                cout << "Masukkan ID Pasien yang dicari: ";
+                cin >> id;
+                cariPasien(id);
+                break;
+            case 4:
+                cout << "Masukkan ID Pasien yang akan dihapus: ";
+                cin >> id;
+                hapusPasien(id);
+                break;
+            case 5:
+                cout << "Keluar dari program.\n";
+                break;
+            default:
+                cout << "Pilihan tidak valid. Silakan coba lagi.\n";
+        }
+    } while (pilihan != 5);
+
+    return 0;
+}
